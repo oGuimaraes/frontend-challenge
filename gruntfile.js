@@ -16,7 +16,6 @@ module.exports = function(Grunt)
             vendor: {
                 src: [ 
                     (bowerPath + "/jquery/dist/jquery.min.js"),
-                    (bowerPath + "/angular/angular.min.js"),
                 ],
                 dest: (distJsPath + "/vendor.js")
             },
@@ -40,6 +39,7 @@ module.exports = function(Grunt)
             vendor: {
                 src: [ 
                     (bowerPath + "/reset-css/reset.css"),
+                    (bowerPath + "/components-font-awesome/css/font-awesome.min.css"),
                     (bowerPath + "/bootstrap/dist/css/bootstrap.min.css"),
                 ],
                 dest: (distCssPath + "/vendor.css")
