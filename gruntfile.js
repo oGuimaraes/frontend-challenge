@@ -15,12 +15,13 @@ module.exports = function(Grunt)
             options: { separator: "; \n" },
             vendor: {
                 src: [ 
-                    (bowerPath + "/jquery/dist/jquery.min.js"),
+                    (bowerPath + "/axios/dist/axios.min.js"),
                 ],
                 dest: (distJsPath + "/vendor.js")
             },
             app: {
-                src: [ 
+                src: [
+                    (sourcePath + "/js/app.js"), 
                 ],
                 dest: (distJsPath + "/app.js")
             }

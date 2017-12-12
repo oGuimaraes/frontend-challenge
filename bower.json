@@ -1,0 +1,23 @@
+{
+  "name": "weather-challenge",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Otávio Guimarães <otaviovgsr@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/oGuimaraes/frontend-challenge",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "components-font-awesome": "^4.7.0",
+    "reset-css": "^2.2.1",
+    "axios": "^0.17.1"
+  }
+}
