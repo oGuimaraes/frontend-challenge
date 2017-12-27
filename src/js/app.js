@@ -28,13 +28,20 @@ function createLink(city){
     return "https://query.yahooapis.com/v1/public/yql?q=select item from weather.forecast where woeid in (select woeid from geo.places(1) where text=' " + city + "') and u='c'&format=json";    
 }
 
-for (var indice = 0; indice < 10; indice++) {
-    var indiceName = indice;
+function addCelsiusSymbol(value){
+    return value + 'º';
+}
 
-    axios
-        .get(createLink(citiesQueries[indice]))
-        .then(function (response) {
-            var forecast = response.data.query.results.channel.item.forecast[0];
+var promises = [];
+for (var indice = 0; indice < 10; indice++) {
+    promises[indice] = axios.get(createLink(citiesQueries[indice]));
+}
+
+axios
+    .all(promises)
+    .then(function (response) {
+        for (var indice = 0; indice < 10; indice++){
+            var forecast = response[indice].data.query.results.channel.item.forecast[0];
             var high = forecast.high;
             var low = forecast.low;
             
@@ -45,24 +52,26 @@ for (var indice = 0; indice < 10; indice++) {
 
             var maxColumn = document.createElement("td");
             maxColumn.setAttribute("class", "gmr-column-table");
-            var maxTextNode = document.createTextNode(high);
+            var maxTextNode = document.createTextNode(addCelsiusSymbol(high));
             line.appendChild(maxColumn);
             maxColumn.appendChild(maxTextNode);
 
             var minColumn = document.createElement("td");
             minColumn.setAttribute("class", "gmr-column-table");
-            var minTextNode = document.createTextNode(low);
+            var minTextNode = document.createTextNode(addCelsiusSymbol(low));
             line.appendChild(minColumn);
             minColumn.appendChild(minTextNode);
             
-            var citiesTextNode = document.createTextNode(citiesName[indiceName]);
+            var citiesTextNode = document.createTextNode(citiesName[indice]);
             var citiesColumn = document.createElement("td");
             citiesColumn.setAttribute("class", "gmr-column-table");
             line.appendChild(citiesColumn);
-            citiesColumn.appendChild(citiesTextNode);    
-        })
+            citiesColumn.appendChild(citiesTextNode); 
+            
+        }
+        console.log(response);
+    })
 
     .catch(function (error) {
         console.log("error");
     });
-}
