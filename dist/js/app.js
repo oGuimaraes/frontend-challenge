@@ -24,6 +24,12 @@ var citiesName = [
     'João Pessoa'
 ];
 
+var autoCompleteCities = [
+    'Belo Horizonte - MG | Brasil',
+    'Rio de Janeiro - RJ | Brasil',
+    'Manaus - AM | Brasil'
+]
+
 function createLink(city){
     return "https://query.yahooapis.com/v1/public/yql?q=select item from weather.forecast where woeid in (select woeid from geo.places(1) where text=' " + city + "') and u='c'&format=json";    
 }
@@ -69,9 +75,30 @@ axios
             citiesColumn.appendChild(citiesTextNode); 
             
         }
-        console.log(response);
     })
 
     .catch(function (error) {
         console.log("error");
     });
+
+axios.get("https://servicodados.ibge.gov.br/api/v1/localidades/municipios")
+    .then(function (inputSearch) {
+
+        var cityName = inputSearch.data[2309].nome;
+        var stateName = inputSearch.data[2309].microrregiao.mesorregiao.UF.sigla;
+
+        console.log("A cidade escolhida é " + cityName + " - " + stateName);
+    })
+
+var citiesSelect = document.querySelector('#cities-select');
+var citiesSelectList = citiesSelect
+    .querySelector('.gmr-autocomplete-list')
+    .querySelector('ul');
+
+for(var i = 0; i < autoCompleteCities.length; i++) {
+    var cityNameList = document.createElement('li');
+    var cityNameTextNode = document.createTextNode(autoCompleteCities[i]);
+    
+    cityNameList.appendChild(cityNameTextNode);
+    citiesSelectList.appendChild(cityNameList);
+}

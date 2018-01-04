@@ -1,3 +1,8 @@
+.gmr-autocomplete {
+    position: relative;
+    z-index: 1;
+}
+
 .gmr-full-input {
     border: 1px solid #D86C00;
     background-color: white;
@@ -29,7 +34,30 @@
     color: #505050;
     margin-top: 7px;
     text-align: center;
-  }
+}
+
+.gmr-autocomplete-list {
+    background-color: #ffffff;
+    border: 1px solid #CCCCCC;
+    left: 0;
+    right: 0;
+    position: absolute;
+    top: 42px;
+
+    box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+
+    li {
+        font-size: 14px;
+        height: 26px;
+        padding: 3px 0 0 10px;
+        width: 100%;
+    }
+
+    ul {
+        margin-bottom: 0;
+    }
+    
+}
 
 .gmr-stripe-horizontal {
     background: #ffffff;
