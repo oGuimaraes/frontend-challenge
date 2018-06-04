@@ -17,15 +17,22 @@
 
 		<div id="cities-select" class="gmr-content-conatiner gmr-autocomplete">
 			<div class="gmr-content-container gmr-full-input">
-				<input class="gmr-input" type"text" placeholder="Insira aqui o nome da cidade"/>
-				<button class="submit-lupa" type="submit">
-					<i class="fa fa-search"></i>
-				</button>
+
+
+				<form autocomplete="off" action="/action_page.php">
+					<div class="autocomplete">
+					  <input id="myInput" class="gmr-input" type="text" name="myCountry" placeholder="Insira aqui o nome da cidade">
+					  <button class="submit-lupa" type="submit">
+						<i class="fa fa-search"></i>
+						</button>
+					</div>
+				  </form>
+
+
 			</div>
 			<div class="gmr-autocomplete-list">
 				<ul>
-					<li>São Paulo - SP | Brasil</li>
-
+					<!-- <li>São Paulo - SP | Brasil</li> -->
 				</ul>
 			</div>	
 		</div>
@@ -51,5 +58,6 @@
 
 	<script src="dist/js/vendor.js"></script>
 	<script src="dist/js/app.js"></script>
+
 </body>
 </html>
