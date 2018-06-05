@@ -129,88 +129,90 @@ var citiesSelectList = citiesSelect
 */
 
 document.addEventListener("DOMContentLoaded", function(event) {
-    /* a função autocomplete recebe dois argumentos, inp(Input: elemento de campo de texto)
-    e arr(Array: cidades pré-definidas */
     function autocomplete(inp, arr) {
+        /*the autocomplete function takes two arguments,
+        the text field element and an array of possible autocompleted values:*/
         var currentFocus;
-        /* executa a função quando alguém escreve no campo de texto(input)*/
+        /*execute a function when someone writes in the text field:*/
         inp.addEventListener("input", function(e) {
             var a, b, i, val = this.value;
-            /* fecha todas as listas já abertas de valores preenchidos automaticamente*/
+            /*close any already open lists of autocompleted values*/
             closeAllLists();
             if (!val) { return false;}
             currentFocus = -1;
-            /* cria um DIV e define os atributos: id=autocomplete-list & class=autocomplete-items*/
+            /*create a DIV element that will contain the items (values):*/
             a = document.createElement("DIV");
             a.setAttribute("id", this.id + "autocomplete-list");
             a.setAttribute("class", "autocomplete-items");
-            /* o elemento DIV se torna um filho da div autocomplete(container)*/
+            /*append the DIV element as a child of the autocomplete container:*/
             this.parentNode.appendChild(a);
-            /* para cada item do array...*/
+            /*for each item in the array...*/
             for (i = 0; i < arr.length; i++) {
-              /* verifica se o item começa com as mesmas letras que o valor do campo de texto:*/
+              /*check if the item starts with the same letters as the text field value:*/
               if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-                /* cria uma div para cada elemento correspondente:*/
+                /*create a DIV element for each matching element:*/
                 b = document.createElement("DIV");
-                /* coloca em negrito as letras semelhantes: */
+                /*make the matching letters bold:*/
                 b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
                 b.innerHTML += arr[i].substr(val.length);
-                /* cria um elemento no HTML contendo o valores iguais, correspondente ao valor da matriz atual*/
+                /*insert a input field that will hold the current array item's value:*/
                 b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                /* Executa uma função quando a div é clicada:*/
+                /*execute a function when someone clicks on the item value (DIV element):*/
                     b.addEventListener("click", function(e) {
-                    /* insere o valor para o input autocomplete:*/
+                    /*insert the value for the autocomplete text field:*/
                     inp.value = this.getElementsByTagName("input")[0].value;
-                    /* fecha a lista de valores preenchidos automaticamente,
-                    (ou qualquer outra lista aberta de valores preenchidos automaticamente: */
+                    /*close the list of autocompleted values,
+                    (or any other open lists of autocompleted values:*/
                     closeAllLists();
                 });
                 a.appendChild(b);
               }
             }
         });
-        /* executa a função quando determinada tecla é pressionada: */
+        /*execute a function presses a key on the keyboard:*/
         inp.addEventListener("keydown", function(e) {
             var x = document.getElementById(this.id + "autocomplete-list");
             if (x) x = x.getElementsByTagName("div");
             if (e.keyCode == 40) {
-              /* se a tecla de seta para baixo for pressionada, aumentar a variável currentFocus: */
+              /*If the arrow DOWN key is pressed,
+              increase the currentFocus variable:*/
               currentFocus++;
-              /* e tornar o item atual destacado (focus/hover):*/
+              /*and and make the current item more visible:*/
               addActive(x);
             } else if (e.keyCode == 38) { //up
-              /*se a tecla de seta para baixo for pressionada, aumentar a variável currentFocus:*/
+              /*If the arrow UP key is pressed,
+              decrease the currentFocus variable:*/
               currentFocus--;
-              /* tornar item atual mais visivel*/
+              /*and and make the current item more visible:*/
               addActive(x);
             } else if (e.keyCode == 13) {
-              /* se ENTER estiver pressionada, evita que o formulário seja enviado,*/
+              /*If the ENTER key is pressed, prevent the form from being submitted,*/
               e.preventDefault();
               if (currentFocus > -1) {
-                /*e simula um clique no item ativo: */
+                /*and simulate a click on the "active" item:*/
                 if (x) x[currentFocus].click();
               }
             }
         });
         function addActive(x) {
-          /*function para classificar um item como ativo: */
+          /*a function to classify an item as "active":*/
           if (!x) return false;
-          /* remove a classe ativa em todos os items: */
+          /*start by removing the "active" class on all items:*/
           removeActive(x);
           if (currentFocus >= x.length) currentFocus = 0;
           if (currentFocus < 0) currentFocus = (x.length - 1);
-          /* adiciona a classe 'autocomplete-active': */
+          /*add class "autocomplete-active":*/
           x[currentFocus].classList.add("autocomplete-active");
         }
         function removeActive(x) {
-          /* function para remover a classe 'active' de todos os itens do autocomplete:*/
+          /*a function to remove the "active" class from all autocomplete items:*/
           for (var i = 0; i < x.length; i++) {
             x[i].classList.remove("autocomplete-active");
           }
         }
         function closeAllLists(elmnt) {
-          /* inibe todos os itens da lista do autocomplete,
-            exceto o elemento(elmnt) que é passado no argumento: */
+          /*close all autocomplete lists in the document,
+          except the one passed as an argument:*/
           var x = document.getElementsByClassName("autocomplete-items");
           for (var i = 0; i < x.length; i++) {
             if (elmnt != x[i] && elmnt != inp) {
@@ -218,11 +220,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
           }
         }
       }
-      /* executa uma função quando alguém clica no documento:v*/
+      /*execute a function when someone clicks in the document:*/
       document.addEventListener("click", function (e) {
           closeAllLists(e.target);
       });
     }
-    /* passa a matriz de capitais como o segundo parâmetro da função autocomplete */
     autocomplete(document.getElementById("myInput"), autoCompleteCities);
 }); 

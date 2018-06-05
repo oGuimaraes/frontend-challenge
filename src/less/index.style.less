@@ -1,5 +1,109 @@
-.gmr-autocomplete {
+.gmr-colapsible-city-chosen {
+    justify-content:center;
+
+    .inline {
+        display: inline-block
+    }
+
+    .top-section{
+    background-color: #FFF2E4;
+    padding: 20px 15px 15px 45px;
     position: relative;
+    width: 100%;
+    }
+
+    .gmr-city-info{
+
+        .gmr-celsius-now {
+            width: 55px;
+            font-weight: 800;
+        }
+        .gmr-climate-now {
+            float: right;
+            font-weight: 800;
+            padding-left: 10%;
+            padding-right: 20px;
+        }
+        
+            .fa-arrow-down {
+            color: #FF8F21;
+        }
+
+        .fa-arrow-up {
+            color: #FF8F21;
+            margin-left: 5px;
+        }
+
+        .gmr-min-celsius{
+            font-weight: 800; 
+        }
+
+        .gmr-max-celsius{
+            font-weight: 800;
+        }
+
+        .gmr-sensation {
+            float: right;
+            padding-right: 20px;
+        }
+
+        .gmr-humidity {
+            float: right;
+            padding-right: 20px;
+        }
+
+        .orange-line{
+            width: 100%;
+            height: 1px;
+            background-color: #FF8F21;
+        }
+
+    }
+
+    .gmr-city-name{
+        font-weight: 800;
+        margin-right:~"calc(100% - 165px)";
+    }
+
+    .gmr-close-button{
+        color: #FF8F21;
+        display: inline-block;
+        font-size: 22px;
+        font-weight: 400;
+    }
+}
+
+
+.orange-line {
+    width: 100%;
+    height: 1px;
+    background-color: #FF8F21;
+}
+
+.bottom-section {
+    background-color: #FFF2E4;
+    display: flex;
+    justify-content: center;
+    padding: 5px 15px 5px 50px;
+    width: 100%;
+
+    .gmr-afterday{
+        flex-grow: 1;
+    }
+   
+    .gmr-afterday{
+        h5 {
+            font-weight: bold;
+            color: #FF8F21;
+        }
+    }
+    
+}
+
+
+
+.gmr-autocomplete {
+    position: relative; 
     z-index: 1;
 }
 
@@ -96,7 +200,7 @@
     content: '';
     display: block;
     height: 1px;
-    margin:35px 0 20px;
+    margin: 20px 0 20px;
     position: relative;
 }
 
