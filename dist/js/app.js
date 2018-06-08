@@ -25,37 +25,21 @@ var citiesName = [
 ];
 
 var autoCompleteCities = [
-    'Rio Branco	- Acre (AC)',
-    'Maceió	- Alagoas (AL)',
-    'Macapá - Amapá (AP)',
-    'Manaus	- Amazonas (AM)',
-    'Salvador -	Bahia (BA)',
-    'Fortaleza - Ceará (CE)',
-    'Brasília - Distrito Federal (DF)',
-    'Vitória - Espírito Santo (ES)',
-    'Goiânia - Goiás (GO)',
-    'São Luís - Maranhão (MA)',
-    'Cuiabá - Mato Grosso (MT)',
-    'Campo Grande - Mato Grosso do Sul (MS)',
-    'Belo Horizonte - Minas Gerais (MG)',
+    'Rio de Janeiro	- Rio de Janeiro (RJ)', /* 12004*/
+    'São Paulo - São Paulo (SP)', /* 27011 */
+    'Belo Horizonte - Minas Gerais (MG)', /* 27011 */
+    'Brasilia - Goiás (GO)',
     'Belém - Pará (PA)',
-    'João Pessoa - Paraíba (PB)',
+    'Salvador - Bahia (BA)',
     'Curitiba - Paraná (PR)',
-    'Recife - Pernambuco (PE)',
-    'Teresina - Piauí (PI)',
-    'Rio de Janeiro - Rio de Janeiro (RJ)',
-    'Natal - Rio Grande do Norte (RN)',
-    'Porto Alegre - Rio Grande do Sul (RS)',
-    'Porto Velho - Rondônia (RO)',
-    'Boa Vista - Roraima (RR)',
-    'Florianópolis - Santa Catarina (SC)',
-    'São Paulo - São Paulo (SP)',
-    'Aracaju - Sergipe (SE)',
-    'Palmas - Tocantins (TO)'
+    'Fortaleza - Ceará (CE)',
+    'Manaus - Amazonas (AM)',
+    'João Pessoa - Paraíba (PB)',
 ]
 
 function createLink(city){
-    return "https://query.yahooapis.com/v1/public/yql?q=select item from weather.forecast where woeid in (select woeid from geo.places(1) where text=' " + city + "') and u='c'&format=json";    
+    console.log(city);
+    return "https://query.yahooapis.com/v1/public/yql?q=select item from weather.forecast where woeid in (select woeid from geo.places(1) where text=' " + city + "') and u='c'&format=json";
 }
 
 function addCelsiusSymbol(value){
@@ -64,12 +48,16 @@ function addCelsiusSymbol(value){
 
 var promises = [];
 for (var indice = 0; indice < 10; indice++) {
+    console.log(citiesQueries[indice])
     promises[indice] = axios.get(createLink(citiesQueries[indice]));
 }
 
 axios
     .all(promises)
     .then(function (response) {
+
+        console.log(response[0].data.query.results.channel.item.forecast[0].high);
+
         for (var indice = 0; indice < 10; indice++){
             var forecast = response[indice].data.query.results.channel.item.forecast[0];
             var high = forecast.high;
@@ -105,7 +93,8 @@ axios
         console.log("error");
     });
 
-axios.get("https://servicodados.ibge.gov.br/api/v1/localidades/municipios")
+axios
+    .get("https://servicodados.ibge.gov.br/api/v1/localidades/municipios")
     .then(function (inputSearch) {
 
         var cityName = inputSearch.data[2309].nome;
@@ -113,6 +102,13 @@ axios.get("https://servicodados.ibge.gov.br/api/v1/localidades/municipios")
 
         console.log("A cidade escolhida é " + cityName + " - " + stateName);
     })
+
+    /*
+     * 2309 -> id:Belo Horizonte.
+     * Criar um array com as id das capitais, e percorrer item por item.
+     * Checaremos com Switch Case os valores.
+     */ 
+    
 
 var citiesSelect = document.querySelector('#cities-select');
 var citiesSelectList = citiesSelect
@@ -227,3 +223,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
     autocomplete(document.getElementById("myInput"), autoCompleteCities);
 }); 
+
+var form = document.getElementById('form');
+var input = document.getElementById('myInput');
+
+form.addEventListener('submit', function(e) {
+    // alerta o valor do campo
+
+    var valInput = myInput.value;
+
+    for (i = 0; i < citiesQueries.length ; i++){
+        if (valInput == autoCompleteCities[i]){
+            valInput == citiesQueries[i];
+            alert(citiesQueries[i])
+        }
+    }
+
+    // impede o envio do form, inibindo 
+    e.preventDefault();
+});
