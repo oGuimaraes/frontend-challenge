@@ -38,8 +38,8 @@ var autoCompleteCities = [
 ]
 
 function createLink(city){
-    console.log(city);
-    return "https://query.yahooapis.com/v1/public/yql?q=select item from weather.forecast where woeid in (select woeid from geo.places(1) where text=' " + city + "') and u='c'&format=json";
+    //*console.log(city);
+    return "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=' " + city + "') and u='c'&format=json";
 }
 
 function addCelsiusSymbol(value){
@@ -56,8 +56,6 @@ axios
     .all(promises)
     .then(function (response) {
 
-        console.log(response[0].data.query.results.channel.item.forecast[0].high);
-
         for (var indice = 0; indice < 10; indice++){
             var forecast = response[indice].data.query.results.channel.item.forecast[0];
             var high = forecast.high;
@@ -70,13 +68,13 @@ axios
 
             var maxColumn = document.createElement("td");
             maxColumn.setAttribute("class", "gmr-column-table");
-            var maxTextNode = document.createTextNode(addCelsiusSymbol(high));
+            var maxTextNode = document.createTextNode(addCelsiusSymbol(low));
             line.appendChild(maxColumn);
             maxColumn.appendChild(maxTextNode);
 
             var minColumn = document.createElement("td");
             minColumn.setAttribute("class", "gmr-column-table");
-            var minTextNode = document.createTextNode(addCelsiusSymbol(low));
+            var minTextNode = document.createTextNode(addCelsiusSymbol(high));
             line.appendChild(minColumn);
             minColumn.appendChild(minTextNode);
             
@@ -229,16 +227,34 @@ var input = document.getElementById('myInput');
 
 form.addEventListener('submit', function(e) {
     // alerta o valor do campo
-
     var valInput = myInput.value;
+    var chosenCity;
+    console.log(valInput)
 
-    for (i = 0; i < citiesQueries.length ; i++){
+    for (i = 0; i < autoCompleteCities.length ; i++){
         if (valInput == autoCompleteCities[i]){
-            valInput == citiesQueries[i];
-            alert(citiesQueries[i])
+            chosenCity = citiesQueries[i];
         }
     }
 
-    // impede o envio do form, inibindo 
+    var a = axios
+        .get(createLink(chosenCity))
+            .then(function(response){
+                console.log(response)
+                var forecast = response.data.query.results.channel.item.forecast[0];
+                console.log(forecast.low);
+
+            var queryMin = document.querySelector('.gmr-min-celsius');
+            queryMin.innerHTML = forecast.low;
+
+            var queryMax = document.querySelector('.gmr-max-celsius');
+            queryMax.innerHTML = forecast.high; 
+
+            })
+
+
+    // impede o envio do form, não utilizando o 'submit'    
     e.preventDefault();
 });
+
+ 
