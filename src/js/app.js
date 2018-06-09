@@ -241,16 +241,33 @@ form.addEventListener('submit', function(e) {
         .get(createLink(chosenCity))
             .then(function(response){
                 console.log(response)
+
+                var condition = response.data.query.results.channel.item.condition;
                 var forecast = response.data.query.results.channel.item.forecast[0];
-                console.log(forecast.low);
+                var atmosphere = response.data.query.results.channel.atmosphere;
+                var wind = response.data.query.results.channel.wind;
+                var city = response.data.query.results.channel.location;
 
-            var queryMin = document.querySelector('.gmr-min-celsius');
-            queryMin.innerHTML = forecast.low;
+            var cityNameQuery = document.querySelector('.gmr-city-name');
+            cityNameQuery.innerHTML = city.city + ', ' + city.region + ' - ' + city.country;
+            
 
-            var queryMax = document.querySelector('.gmr-max-celsius');
-            queryMax.innerHTML = forecast.high; 
+            var currentCelsius = document.querySelector('.gmr-celsius-now');
+            currentCelsius.innerHTML = condition.temp + '°C';
 
-            })
+            var minQuery = document.querySelector('.gmr-min-celsius');
+            minQuery.innerHTML = forecast.low;
+
+            var maxQuery = document.querySelector('.gmr-max-celsius');
+            maxQuery.innerHTML = forecast.high; 
+
+            var humidityQuery = document.querySelector('.gmr-humidity');
+            humidityQuery.innerHTML = 'Humidade: ' + atmosphere.humidity + '%';
+
+            var windQuery = document.querySelector('.gmr-wind');
+            windQuery.innerHTML = 'Vento: ' + wind.chill + 'km/h'
+
+            });
 
 
     // impede o envio do form, não utilizando o 'submit'    
